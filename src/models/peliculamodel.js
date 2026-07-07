@@ -13,8 +13,6 @@ const obtenerpelicula = (callback) => {
 //Esa funcion es propia de ese modulo que instalamos de mysql2
 }
 
-
-
 // Crear Peliculas
 const crearPelicula = (pelicula, callback) => {
     const sql = "INSERT INTO pelicula(nombre, director, ano_lanzamiento) VALUES (?, ?, ?)"

@@ -10,7 +10,7 @@ const { SECRET } = require('../middleware/authMiddleware')
 router.post('/register', (req, res) => {
     const { username, password } = req.body
 
-    console.log (req.body) ;
+   
 
     if (!username || !password) {
         res.status(400).json({ error: "ussername y password requerido " })
@@ -21,7 +21,7 @@ router.post('/register', (req, res) => {
     crearusuario(username, passwordhash, (error, resultado) => {
         if (error) {
             if (error.code === 'ER_DUP_ENTRY') {// Este es el error que sale cuando se intenta insertar un valor que debe ser unico 
-                return res.status(409).json({ error: "El username debe ser unico " })
+                return res.status(409).json({ error: "El usuario ya esta registrado " })
             }
             
             return res.status(500).json({ error: "El error creando usuario " })
@@ -32,7 +32,8 @@ router.post('/register', (req, res) => {
 })  
 
 router.post('/login', (req, res) => {
-     const { username, password } = req.body
+
+    const { username, password } = req.body
 
     if (!username || !password) {
         res.status(400).json({ error: "ussername y password requerido " })
@@ -43,14 +44,16 @@ router.post('/login', (req, res) => {
             return res.status(500).json({ error: "Error en el servidor " })
         }
 
-        if(resultados.length === 0) {
+        if(resultados.length === 0) {//Aqui esta busacando si el usuario existe 
             return res.status(500).json({ error: "Credenciales invalidas" })
 
         }
 
-        const usuario = resultados[0]
+        const usuario = resultados[0]//aqui esta trayendo los datos de la base de datos
 
         const passwordvalido = bcrypt.compareSync(password, usuario.password)
+        //aqui se verificaque el password de la base datos y la que se mando en el payload son la misma 
+
 
         if(!passwordvalido) {
             return res.status(401).json ("Credenciales invalidas")

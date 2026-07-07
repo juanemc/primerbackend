@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const SECRET = "clave_secreta"
+const SECRET = process.env.JWT_SECRET
 
 const verificarToken = (req, res, next) => {
     const authHeader = req.headers['authorization']
@@ -20,7 +20,7 @@ const verificarToken = (req, res, next) => {
             return res.status(403).json({ error: "Token invalido o expirado "})  
         }
 
-        req.usuario = decode
+        req.usuario = decode //Aqui estamos decodificando los datos del token
 
         next()
     })

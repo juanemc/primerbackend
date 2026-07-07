@@ -2,10 +2,10 @@
 const mysql = require("mysql2") // Aqui estamos importando el modulo 
 
 const connection = mysql.createConnection({
-    host : 'localhost',
-    user : 'root',
-    password : '',
-    database : 'peliculas'
+    host : process.env.DB_HOST,
+    user : process.env.DB_USER,
+    password : process.env.DB_PASSWORD,
+    database : process.env.DB_NAME
 }) // aqui nos estamos conectando a la base de datos con este objeto 
 
 connection.connect((error) => {

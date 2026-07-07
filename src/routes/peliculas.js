@@ -3,6 +3,7 @@ const router = express.Router() //Rouder para manejar las rutas, definir mis rut
 
 
 const productoModel = require('../models/peliculamodel')
+const {verificarToken} = require('../middleware/authMiddleware')
 
 //Metodo Get para Leer
 router.get('/peliculas', (req, res) => {
@@ -21,7 +22,7 @@ router.get('/peliculas', (req, res) => {
 })
 
 //Metodo Post para crear 
-router.post('/peliculas', (req, res) => {
+router.post('/peliculas', verificarToken, (req, res) => {
     const pelicula = req.body
 
     productoModel.crearPelicula(pelicula, (error, resultado) => {
@@ -40,7 +41,7 @@ router.post('/peliculas', (req, res) => {
 })
 
 //Metodo Put para actualizar 
-router.put('/peliculas/:id', (req, res) => {
+router.put('/peliculas/:id', verificarToken, (req, res) => {
     const id = parseInt(req.params.id)
 
     const newPelicula = req.body
@@ -64,7 +65,7 @@ router.put('/peliculas/:id', (req, res) => {
 });
 
 //Metodo Delete
-router.delete('/peliculas/:id', (req, res) => {
+router.delete('/peliculas/:id', verificarToken, (req, res) => {
     const id = parseInt(req.params.id)
 
     productoModel.eliminarPelicula(id, (error, producto) => {
